@@ -1,5 +1,9 @@
 #Encoding problem
 
+#TODO
+* [x] write a basic readme
+* [ ] write a program by myself that convert file from one format to other format.
+
 #Some Notes
 1. 从windows中的记事本保存的文件都有BOM(Bytes Order Mark).  
 
