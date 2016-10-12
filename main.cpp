@@ -74,6 +74,9 @@ void printAddr(void *t){
 	unsigned long d=(unsigned long)t;
 	printHex(d);
 }
+void unicodeToUtf8(byte*from,int size,byte*to){
+}
+
 int main(){
 //	testAllType();
 	dword dw=0x0f0f0ff0;
