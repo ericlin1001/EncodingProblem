@@ -1,7 +1,7 @@
 #Encoding problem
 
 #TODO
-* [x] write a basic readme
+* [x] :+1: write a basic readme
 * [ ] write a program by myself that convert file from one format to other format.
 
 #Some Notes
