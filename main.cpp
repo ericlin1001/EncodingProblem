@@ -15,23 +15,6 @@ MyType getType(const dword t){return TYPE_DWORD;}
 MyType getType(const sdword t){return TYPE_SDWORD;}
 MyType getType(const byte t){return TYPE_BYTE;}
 MyType getType(const sbyte t){return TYPE_SBYTE;}
-
-template <class T>
-const char *getTypeName(const T t){
-	switch(getType(t)){
-		default:
-		case TYPE_UNKNOW:
-			return "Unknow";
-		case TYPE_BYTE:
-			return "Unsigned Byte";
-		case TYPE_SBYTE:
-			return "Signed Byte\t";
-		case TYPE_DWORD:
-			return "Unsigned Double Word";
-		case TYPE_SDWORD:
-			return "Signed Double Word";
-	};
-}
 template<class T>
 bool getByte(const T b,int i){
 	unsigned long k=1;
@@ -61,57 +44,54 @@ inline void printB(const T t,int numBits=-1){
 	_printB(t,numBits);
 }
 
+
+char toHex(int a){
+	if(a>=0&&a<=9){
+		return '0'+a;
+	}
+	a-=10;
+	return 'A'+a;
+}
 template<class T>
-void printT(const T t){
-	if(getType(t)==TYPE_BYTE||getType(t)==TYPE_SBYTE){
-		cout<<(int)t;
-	}else{
-		cout<<t;
+void printHex(T t,int numBytes=-1){
+	byte x=0xf;
+	cout<<"0x";
+	//
+	if(numBytes==-1){
+		if(getType(t)==TYPE_BYTE||getType(t)==TYPE_SBYTE){
+			numBytes=1;
+		}else{
+			numBytes=4;
+		}
+	}
+	int b=numBytes*2;
+	for(int i=0;i<b;i++){
+		cout<<toHex((t>>4*(b-1-i))&x);
 	}
 }
-//
-template<class T>
-void testType(T t){
-#define print(m) cout<<#m"\t";printT(m);cout<<"\t";printB(m);cout<<endl;
-	byte b=t;
-	sbyte sb=t;
-	dword dw=t;
-	sdword sdw=t;
-#define ToWhat(v) cout<<"To "<<getTypeName(v)<<"\t";print(v);
-	ToWhat(b);
-	ToWhat(sb);
-	ToWhat(dw);
-	ToWhat(sdw);
-	cout<<endl;
-}
-void testAllType(){
-#define ShowTest(v,cmd) cmd;\
-	cout<<"After run command:"#cmd""<<endl;\
-	cout<<"From "<<getTypeName(v)<<"\t";print(v);\
-	cout<<"---"<<endl;\
-	testType(v);cout<<endl;
-
-#define ShowTests(v)  \
-	ShowTest(v,v=128);\
-	ShowTest(v,v=127);\
-	ShowTest(v,v++);\
-	ShowTest(v,v++);\
-	ShowTest(v,v=-1);\
-	ShowTest(v,v--);\
-	ShowTest(v,v=0xffffff00+64);\
-
-	byte b;
-	sbyte sb;
-	dword dw;
-	sdword sdw;
-	//
-	ShowTests(b);
-	ShowTests(sb);
-	ShowTests(dw);
-	ShowTests(sdw);
-	//
+void printAddr(void *t){
+	//dword d=(dword)t;
+	unsigned long d=(unsigned long)t;
+	printHex(d);
 }
 int main(){
-	testAllType();
+//	testAllType();
+	dword dw=0x0f0f0ff0;
+	if ((*((byte*)&dw))==0xf0){
+		cout<<"little-endian:least significant bit goes first, in lowest address"<<endl;
+	}else if ((*((byte*)&dw))==0x0f){
+		cout<<"big-endian:most significant bit goes first, in lowest address"<<endl;
+	}else{
+		cout<<"Uknown-endian, or Error"<<endl;
+	}
+	//
+	cout<<"[";printAddr(&dw);cout<<"]:";printHex(dw);cout<<"\t";printB(dw);cout<<endl;
+	byte *p;
+	p=(byte*)&dw;
+#define TT(v) cout<<"[";printAddr(v);cout<<"]:";printHex(*v);cout<<"\t";printB(*v);cout<<endl;v++;
+	TT(p);
+	TT(p);
+	TT(p);
+	TT(p);
 	return 0;
 }

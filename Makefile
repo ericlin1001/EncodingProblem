@@ -1,5 +1,7 @@
 all:compile run
 
+.PHONY:compile
+
 compile:main.cpp
 	g++  main.cpp
 
