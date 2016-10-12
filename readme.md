@@ -21,6 +21,7 @@
 
 #BOM(Bytes Order Mark) Table
 	|BOM
+	-|-
 UTF-8|0xef 0xbb 0xbf
 UTF-16LE|0xff 0xfe
 UTF-16BE|0xfe 0xff
@@ -48,13 +49,14 @@ xxd -g 1 unicodeb.txt
 	用记事本打开，另存为时，选择不同的编码方式。
 
 # 确定文本的编码
-对于Unicode文本最标准的途径是检测文本最开头的几个字节。如：
-开头字节        Charset/encoding
-	EF BB BF　　　 UTF-8
-	FE FF　　　　　UTF-16/UCS-2, little endian(UTF-16LE)
-	FF FE　　　　　UTF-16/UCS-2, big endian(UTF-16BE)
-	FF FE 00 00　　UTF-32/UCS-4, little endian.
-	00 00 FE FF　　UTF-32/UCS-4, big-endia
+对于Unicode文本最标准的途径是检测文本最开头的几个字节。如:  
+开头字节       | Charset/encoding 
+-|-
+EF BB BF　　　 |UTF-8
+FE FF　　　　　|UTF-16/UCS-2, little endian(UTF-16LE)
+FF FE　　　　　|UTF-16/UCS-2, big endian(UTF-16BE)
+FF FE 00 00　　|UTF-32/UCS-4, little endian.
+00 00 FE FF　　|UTF-32/UCS-4, big-endia
 
 
 
